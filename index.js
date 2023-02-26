@@ -4,12 +4,25 @@ import inquirer from "inquirer";
 import util from "util";
 const writeFileAsync = util.promisify(fs.writeFile);
 
+const licencesAndBadges =  {"Apache": ["https://img.shields.io/badge/License-Apache_2.0-blue.svg", "https://opensource.org/licenses/Apache-2.0/"], 
+"Boost": ["https://img.shields.io/badge/License-Boost_1.0-lightblue.svg", "https://www.boost.org/LICENSE_1_0.txt"], 
+"Eclipse": ["https://img.shields.io/badge/License-EPL_1.0-red.svg", "https://opensource.org/licenses/EPL-1.0/"], 
+"IBM": ["https://img.shields.io/badge/License-IPL_1.0-blue.svg", "https://opensource.org/license/ibmpl-php/"], 
+"MIT":["https://img.shields.io/badge/License-MIT-yellow.svg", "https://opensource.org/license/mit/"]}
+
+
+
 const promptUser = () => {
   return inquirer.prompt( [
     {
       type: "input",
       name: "githubName",
       message: "What is your GitHub name?",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is your email address?",
     },
     {
       type: "input",
@@ -28,24 +41,30 @@ const promptUser = () => {
     },
     {
       type: "input",
+      message: "Add usage",
+      name: "usage",
+    },
+    {
+      type: "input",
       message: "Add installation contributors, links to tutorials and materials you used in your project",
       name: "contribution",
     },
-    {
-        type: "input",
-        message: "Add usage",
-        name: "usage",
-      },
+    
       {
         type: "list",
         message: "Choose a license",
         name: "license",
-        choices: ["1", "2", "3"]
+        choices: Object.keys(licencesAndBadges),
       },
       {
         type: "input",
         message: "Add tests",
         name: "tests",
+      },
+      {
+        type: "input",
+        message: "Any questions?",
+        name: "questions",
       },
   ]);
 };
@@ -68,6 +87,7 @@ const generateHTML = (answers) =>
     <div><i class="fa-regular fa-list"></i> Readme.md</div>
     <hr/>
     <h1 class="display-4" id="title">${answers.title}</h1>
+    <a href="${licencesAndBadges[answers.license][1]}"><img src="${licencesAndBadges[answers.license][0]}"/></a>
     <hr />
     <h2 id="description">Description</h2>
     <div>${answers.description}</div>
@@ -81,6 +101,7 @@ const generateHTML = (answers) =>
         <li><a href="#contribution">Contribution</a></li>
         <li><a href="#license">License</a></li>
         <li><a href="#tests">Tests</a></li>
+        <li><a href="#questions">Questions</a></li>
       </ul>
     <hr />
     <h2 id="installation">Installation</h2>
@@ -97,6 +118,10 @@ const generateHTML = (answers) =>
     <hr />
     <h2 id="tests">Tests</h2>
     <div>${answers.tests}</div>
+    <hr />
+    <h2 id="questions">Questions</h2>
+    <div>${answers.githubName}</div>
+    <div>${answers.email}</div>
     <hr />
     
   </div>
