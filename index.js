@@ -4,11 +4,11 @@ import inquirer from "inquirer";
 import util from "util";
 const writeFileAsync = util.promisify(fs.writeFile);
 
-const licencesAndBadges =  {"Apache": ["https://img.shields.io/badge/License-Apache_2.0-blue.svg", "https://opensource.org/licenses/Apache-2.0/"], 
-"Boost": ["https://img.shields.io/badge/License-Boost_1.0-lightblue.svg", "https://www.boost.org/LICENSE_1_0.txt"], 
-"Eclipse": ["https://img.shields.io/badge/License-EPL_1.0-red.svg", "https://opensource.org/licenses/EPL-1.0/"], 
-"IBM": ["https://img.shields.io/badge/License-IPL_1.0-blue.svg", "https://opensource.org/license/ibmpl-php/"], 
-"MIT":["https://img.shields.io/badge/License-MIT-yellow.svg", "https://opensource.org/license/mit/"]}
+const licencesAndBadges =  {"Apache": ["https://img.shields.io/badge/License-Apache_2.0-blue.svg", "https://opensource.org/licenses/Apache-2.0/", "Apache 2.0 License"], 
+"Boost": ["https://img.shields.io/badge/License-Boost_1.0-lightblue.svg", "https://www.boost.org/LICENSE_1_0.txt", "Boost Software License 1.0"], 
+"Eclipse": ["https://img.shields.io/badge/License-EPL_1.0-red.svg", "https://opensource.org/licenses/EPL-1.0/", "Eclipse Public License 1.0"], 
+"IBM": ["https://img.shields.io/badge/License-IPL_1.0-blue.svg", "https://opensource.org/license/ibmpl-php/", "IBM Public License Version 1.0"], 
+"MIT":["https://img.shields.io/badge/License-MIT-yellow.svg", "https://opensource.org/license/mit/", "The MIT License"]}
 
 
 
@@ -76,7 +76,8 @@ const generateHTML = (answers) =>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
   
   
   <link rel="stylesheet" href="css/style.css">
@@ -84,7 +85,7 @@ const generateHTML = (answers) =>
 </head>
 <body>
   <div class="container">
-    <div><i class="fa-regular fa-list"></i> Readme.md</div>
+    <div><i class="fa fa-list-ul mx-2"></i> Readme.md</div>
     <hr/>
     <h1 class="display-4" id="title">${answers.title}</h1>
     <a href="${licencesAndBadges[answers.license][1]}"><img src="${licencesAndBadges[answers.license][0]}"/></a>
@@ -114,7 +115,8 @@ const generateHTML = (answers) =>
     <div>${answers.contribution}</div>
     <hr />
     <h2 id="license">License</h2>
-    <div>${answers.license}</div>
+    <div>${licencesAndBadges[answers.license][2]}</div>
+    <a href="${licencesAndBadges[answers.license][1]}"><img src="${licencesAndBadges[answers.license][0]}"/></a>
     <hr />
     <h2 id="tests">Tests</h2>
     <div>${answers.tests}</div>
