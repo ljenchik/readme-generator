@@ -1,6 +1,5 @@
 import fs from "fs";
 import inquirer from "inquirer";
-//import generateMarkdown from "./utils/generateMarkdown";
 import util from "util";
 const writeFileAsync = util.promisify(fs.writeFile);
 
@@ -38,54 +37,91 @@ const promptUser = () => {
       type: "input",
       name: "githubName",
       message: "What is your GitHub name?",
+      validate: (input) => {
+        if (!input) {
+          return "Enter your GitHub name";
+        } else {
+          return true;
+        }
+      },
     },
     {
       type: "input",
       name: "email",
       message: "What is your email address?",
+      validate: (input) => {
+        if (!input) {
+          return "Enter your email";
+        } else {
+          return true;
+        }
+      },
     },
     {
       type: "input",
       message: "What is the title of your project?",
       name: "title",
+      validate: (input) => {
+        if (!input) {
+          return "Enter your project's title";
+        } else {
+          return true;
+        }
+      },
     },
     {
       type: "input",
-      message: "Add description of your project",
+      message: "Add description of the project",
       name: "description",
+      validate: (input) => {
+        if (!input) {
+          return "Add description of your project";
+        } else {
+          return true;
+        }
+      },
     },
     {
       type: "input",
-      message: "Add installation instructions",
+      message: "How to install and run the project?",
       name: "installation",
+      validate: (input) => {
+        if (!input) {
+          return "Add your project installation instructions";
+        } else {
+          return true;
+        }
+      },
     },
     {
       type: "input",
-      message: "Add usage",
+      message: "How to use the project",
       name: "usage",
+      validate: (input) => {
+        if (!input) {
+          return "Add your project usage";
+        } else {
+          return true;
+        }
+      },
     },
     {
       type: "input",
       message:
-        "Add installation contributors, links to tutorials and materials you used in your project",
+        "Add contributors, links to tutorials and materials you used in the project (optional)",
       name: "contribution",
     },
 
     {
       type: "list",
-      message: "Choose a license",
+      message: "Add a license (optional)",
       name: "license",
       choices: Object.keys(licencesAndBadges),
     },
     {
       type: "input",
-      message: "Add tests",
+      message: "Add tests (optional)",
       name: "tests",
-    },
-    {
-      type: "input",
-      message: "Any questions?",
-      name: "questions",
     },
   ]);
 };
@@ -99,8 +135,6 @@ const generateHTML = (answers) =>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
-  
-  
   <link rel="stylesheet" href="css/style.css">
   <title>Readme-generator</title>
 </head>
@@ -131,11 +165,9 @@ const generateHTML = (answers) =>
     <h2 id="installation">Installation</h2>
     <div>${answers.installation}</div>
     <hr />
-
     <h2 id="usage">Usage</h2>
     <div>${answers.usage}</div>
     <hr />
-
     <h2 id="contribution">Contribution</h2>
     <div>${answers.contribution}</div>
     <hr />
@@ -148,11 +180,14 @@ const generateHTML = (answers) =>
     <div>${answers.tests}</div>
     <hr />
     <h2 id="questions">Questions</h2>
-    <div>My github name is <a href="https://github.com/${answers.githubName}">${answers.githubName}</a></div
-    <div>If you have any questions, please <a href = "mailto: ${answers.email}">email me</a></div>
+    <div>My github name is <a href="https://github.com/${answers.githubName}">${
+    answers.githubName
+  }</a></div
+    <div>If you have any questions, please <a href = "mailto: ${
+      answers.email
+    }">email me</a></div>
     <hr />
   </div>
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 </body>
 </html>`;
 
@@ -160,6 +195,7 @@ const generateHTML = (answers) =>
 const init = async () => {
   try {
     const answers = await promptUser();
+    console.log(answers);
     const html = generateHTML(answers);
     await writeFileAsync("index.html", html);
     console.log("Successfully wrote to index.html");
