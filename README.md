@@ -22,3 +22,5 @@ As a developer, I want a README generator so that I can quickly create a profess
 <img src="./assets/screenshot2.png"  width="300"/>
 <img src="./assets/screenshot3.png"  width="300"/>
 </p>
+
+<a href="https://drive.google.com/file/d/1B5wHEjK48Sk5Cvd6vqA-YHsp8KPpbPDH/view" > Link to the demo </a>

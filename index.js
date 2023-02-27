@@ -195,7 +195,6 @@ const generateHTML = (answers) =>
 const init = async () => {
   try {
     const answers = await promptUser();
-    console.log(answers);
     const html = generateHTML(answers);
     await writeFileAsync("index.html", html);
     console.log("Successfully wrote to index.html");
