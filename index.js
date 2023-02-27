@@ -4,16 +4,36 @@ import inquirer from "inquirer";
 import util from "util";
 const writeFileAsync = util.promisify(fs.writeFile);
 
-const licencesAndBadges =  {"Apache": ["https://img.shields.io/badge/License-Apache_2.0-blue.svg", "https://opensource.org/licenses/Apache-2.0/", "Apache 2.0 License"], 
-"Boost": ["https://img.shields.io/badge/License-Boost_1.0-lightblue.svg", "https://www.boost.org/LICENSE_1_0.txt", "Boost Software License 1.0"], 
-"Eclipse": ["https://img.shields.io/badge/License-EPL_1.0-red.svg", "https://opensource.org/licenses/EPL-1.0/", "Eclipse Public License 1.0"], 
-"IBM": ["https://img.shields.io/badge/License-IPL_1.0-blue.svg", "https://opensource.org/license/ibmpl-php/", "IBM Public License Version 1.0"], 
-"MIT":["https://img.shields.io/badge/License-MIT-yellow.svg", "https://opensource.org/license/mit/", "The MIT License"]}
-
-
+const licencesAndBadges = {
+  Apache: [
+    "https://img.shields.io/badge/License-Apache_2.0-blue.svg",
+    "https://opensource.org/licenses/Apache-2.0/",
+    "Apache 2.0 License",
+  ],
+  Boost: [
+    "https://img.shields.io/badge/License-Boost_1.0-lightblue.svg",
+    "https://www.boost.org/LICENSE_1_0.txt",
+    "Boost Software License 1.0",
+  ],
+  Eclipse: [
+    "https://img.shields.io/badge/License-EPL_1.0-red.svg",
+    "https://opensource.org/licenses/EPL-1.0/",
+    "Eclipse Public License 1.0",
+  ],
+  IBM: [
+    "https://img.shields.io/badge/License-IPL_1.0-blue.svg",
+    "https://opensource.org/license/ibmpl-php/",
+    "IBM Public License Version 1.0",
+  ],
+  MIT: [
+    "https://img.shields.io/badge/License-MIT-yellow.svg",
+    "https://opensource.org/license/mit/",
+    "The MIT License",
+  ],
+};
 
 const promptUser = () => {
-  return inquirer.prompt( [
+  return inquirer.prompt([
     {
       type: "input",
       name: "githubName",
@@ -46,31 +66,32 @@ const promptUser = () => {
     },
     {
       type: "input",
-      message: "Add installation contributors, links to tutorials and materials you used in your project",
+      message:
+        "Add installation contributors, links to tutorials and materials you used in your project",
       name: "contribution",
     },
-    
-      {
-        type: "list",
-        message: "Choose a license",
-        name: "license",
-        choices: Object.keys(licencesAndBadges),
-      },
-      {
-        type: "input",
-        message: "Add tests",
-        name: "tests",
-      },
-      {
-        type: "input",
-        message: "Any questions?",
-        name: "questions",
-      },
+
+    {
+      type: "list",
+      message: "Choose a license",
+      name: "license",
+      choices: Object.keys(licencesAndBadges),
+    },
+    {
+      type: "input",
+      message: "Add tests",
+      name: "tests",
+    },
+    {
+      type: "input",
+      message: "Any questions?",
+      name: "questions",
+    },
   ]);
 };
 
 const generateHTML = (answers) =>
-`<!DOCTYPE html>
+  `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -88,7 +109,9 @@ const generateHTML = (answers) =>
     <div><i class="fa fa-list-ul mx-2"></i> Readme.md</div>
     <hr/>
     <h1 class="display-4" id="title">${answers.title}</h1>
-    <a href="${licencesAndBadges[answers.license][1]}"><img src="${licencesAndBadges[answers.license][0]}"/></a>
+    <a href="${licencesAndBadges[answers.license][1]}"><img src="${
+    licencesAndBadges[answers.license][0]
+  }"/></a>
     <hr />
     <h2 id="description">Description</h2>
     <div>${answers.description}</div>
@@ -108,25 +131,28 @@ const generateHTML = (answers) =>
     <h2 id="installation">Installation</h2>
     <div>${answers.installation}</div>
     <hr />
+
     <h2 id="usage">Usage</h2>
     <div>${answers.usage}</div>
     <hr />
+
     <h2 id="contribution">Contribution</h2>
     <div>${answers.contribution}</div>
     <hr />
     <h2 id="license">License</h2>
-    <div>${licencesAndBadges[answers.license][2]}</div>
-    <a href="${licencesAndBadges[answers.license][1]}"><img src="${licencesAndBadges[answers.license][0]}"/></a>
+    <div>The ${answers.title} is licensed under the terms of the ${
+    licencesAndBadges[answers.license][2]
+  }.</div>
     <hr />
     <h2 id="tests">Tests</h2>
     <div>${answers.tests}</div>
     <hr />
     <h2 id="questions">Questions</h2>
-    <div>${answers.githubName}</div>
-    <div>${answers.email}</div>
+    <div>My github name is <a href="https://github.com/${answers.githubName}">${answers.githubName}</a></div
+    <div>If you have any questions, please <a href = "mailto: ${answers.email}">email me</a></div>
     <hr />
-    
   </div>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 </body>
 </html>`;
 
@@ -135,15 +161,11 @@ const init = async () => {
   try {
     const answers = await promptUser();
     const html = generateHTML(answers);
-    await writeFileAsync('index.html', html);
-    console.log('Successfully wrote to index.html');
+    await writeFileAsync("index.html", html);
+    console.log("Successfully wrote to index.html");
   } catch (err) {
     console.log(err);
   }
 };
 
 init();
-
-
-
-
